@@ -18,26 +18,27 @@ export class App extends Component {
   };
 
   async componentDidUpdate(_, prevState) {
-    console.log("did update");
+    console.log(prevState);
+    console.log(this.state);
     const { value, page, images } = this.state;
     console.log(value);
     console.log(prevState.value);
-    try {
-      if (prevState.images === images && page !== 1) {
-        const newImages = await getImages(value, page);
-        setTimeout(() => {
-          this.setState({
-            loading: false,
-            images: [...prevState.images, ...newImages],
-          });
-        }, 2000);
-      }
-    } catch (error) {
-      console.log(error.toJSON());
-      this.setState({
-        status: "rejected",
-      });
-    }
+    // try {
+    //   if (prevState.images === images && page !== 1) {
+    //     const newImages = await getImages(value, page);
+    //     setTimeout(() => {
+    //       this.setState({
+    //         loading: false,
+    //         images: [...prevState.images, ...newImages],
+    //       });
+    //     }, 2000);
+    //   }
+    // } catch (error) {
+    //   console.log(error.toJSON());
+    //   this.setState({
+    //     status: "rejected",
+    //   });
+    // }
 
     try {
       if (prevState.value !== value) {
@@ -58,6 +59,22 @@ export class App extends Component {
       console.log(error.toJSON());
       this.setState({
         error,
+      });
+    }
+    try {
+      if (prevState.page !== page && page !== 1) {
+        const newImages = await getImages(value, page);
+        setTimeout(() => {
+          this.setState({
+            loading: false,
+            images: [...prevState.images, ...newImages],
+          });
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error.toJSON());
+      this.setState({
+        status: "rejected",
       });
     }
   }
