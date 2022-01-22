@@ -7,6 +7,7 @@ import { Button } from "../Button";
 import { getImages } from "../../services/imagesApi";
 import { Loader } from "../Loader";
 import {  AppWpapper, Text} from "./App.styled";
+import { Modal } from "../Modal";
 
 export class App extends Component {
   state = {
@@ -61,6 +62,7 @@ export class App extends Component {
   toggleModal = (image) => {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
+      imageForModal: image,
     }));
   };
 
@@ -78,12 +80,15 @@ export class App extends Component {
   };
 
   render() {
-    const { images, loading, showModal } = this.state;
+    const { images, loading, showModal,imageForModal } = this.state;
     const lengthOfImages = images.length;
    
     return (
       <AppWpapper>
-        
+         {showModal && (
+      <Modal onClose={this.toggleModal}>
+        <img src={imageForModal} alt={'beautiful pic'} />
+      </Modal>)}
         <Searchbar onSubmit={this.handleFormSubmit} />
         <Toaster/>
         {lengthOfImages === 0 && !loading && (
@@ -97,7 +102,7 @@ export class App extends Component {
           />
         )}
         
-        {images.length > 0 && !loading && (
+        {lengthOfImages > 0 && !loading && (
           <Button onClick={this.loadMoreBtn} loading={loading} />
         )}
 
