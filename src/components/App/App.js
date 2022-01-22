@@ -18,11 +18,7 @@ export class App extends Component {
   };
 
   async componentDidUpdate(_, prevState) {
-    console.log(prevState);
-    console.log(this.state);
     const { value, page, images } = this.state;
-    console.log(value);
-    console.log(prevState.value);
     // try {
     //   if (prevState.images === images && page !== 1) {
     //     const newImages = await getImages(value, page);
@@ -46,13 +42,11 @@ export class App extends Component {
         this.setState({
           loading: true,
         });
-        console.log("еще раз");
         // setTimeout(() => {
         this.setState({
           loading: false,
           images: newImages,
         });
-        console.log("и еще раз");
         // }, 2000);
       }
     } catch (error) {
@@ -117,12 +111,7 @@ export class App extends Component {
     // }
     return (
       <div>
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <p>Ghbdtrb</p>
-            {/* <img src={images.largeImageURL} alt="hh" /> */}
-          </Modal>
-        )}
+        
         {/* {showModal && <Modal />} */}
         <Searchbar onSubmit={this.handleFormSubmit} />
         {lengthOfImages === 0 && !loading && (
