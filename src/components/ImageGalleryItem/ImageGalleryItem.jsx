@@ -2,17 +2,20 @@ import { ImageItem, Image } from '.';
 import { Modal } from '../Modal';
 import PropTypes from 'prop-types'; 
 
-export const ImageGalleryItem = ({ showModal, image, tags, onClick }) => {
-  console.log(showModal);
+export const ImageGalleryItem = ({ imageForModal,showModal, image, tags, onClick }) => {
+  console.log(imageForModal);
   return (
+    <>
     <ImageItem>
       <Image src={image} alt={tags} onClick={onClick} />
-      {showModal && (
-          <Modal onClose={onClick}>
-            <img src={image} alt={tags} />
-          </Modal>
-        )}
+      
     </ImageItem>
+    {/* {showModal && (
+      <Modal onClose={onClick}>
+        <img src={imageForModal} alt={tags} />
+      </Modal>
+    )} */}
+    </>
   );
 };
 ImageGalleryItem.propTypes = {

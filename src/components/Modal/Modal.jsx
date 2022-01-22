@@ -22,7 +22,6 @@ export class Modal extends Component {
     if (e.currentTarget === e.target) {
       this.props.onClose();
     }
-    console.log('click');
   };
 
   render() {
@@ -35,14 +34,6 @@ export class Modal extends Component {
   }
 }
 
-// export const Modal = ({ children }) => {
-//   return createPortal(
-//     <Overlay>
-//       <ModalWindow>{children}</ModalWindow>
-//     </Overlay>,
-//     modalRoot
-//   );
-// };
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
 }

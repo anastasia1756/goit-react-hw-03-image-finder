@@ -1,11 +1,13 @@
 
 import React, { Component } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 import { ImageGallery } from "../ImageGallery";
 import { Searchbar } from "../Searchbar";
 import { Button } from "../Button";
 import { getImages } from "../../services/imagesApi";
-import { Modal } from "../Modal";
 import { Loader } from "../Loader";
+import {  AppWpapper, Text} from "./App.styled";
+
 export class App extends Component {
   state = {
     images: [],
@@ -18,39 +20,23 @@ export class App extends Component {
   };
 
   async componentDidUpdate(_, prevState) {
-    const { value, page, images } = this.state;
-    // try {
-    //   if (prevState.images === images && page !== 1) {
-    //     const newImages = await getImages(value, page);
-    //     setTimeout(() => {
-    //       this.setState({
-    //         loading: false,
-    //         images: [...prevState.images, ...newImages],
-    //       });
-    //     }, 2000);
-    //   }
-    // } catch (error) {
-    //   console.log(error.toJSON());
-    //   this.setState({
-    //     status: "rejected",
-    //   });
-    // }
+    const { value, page } = this.state;
+
 
     try {
       if (prevState.value !== value) {
         const newImages = await getImages(value, page);
+        newImages.length === 0 && toast.error('No such picture');
         this.setState({
           loading: true,
         });
-        // setTimeout(() => {
         this.setState({
           loading: false,
           images: newImages,
         });
-        // }, 2000);
       }
+
     } catch (error) {
-      console.log(error.toJSON());
       this.setState({
         error,
       });
@@ -63,10 +49,9 @@ export class App extends Component {
             loading: false,
             images: [...prevState.images, ...newImages],
           });
-        }, 2000);
+        }, 1000);
       }
     } catch (error) {
-      console.log(error.toJSON());
       this.setState({
         status: "rejected",
       });
@@ -95,27 +80,14 @@ export class App extends Component {
   render() {
     const { images, loading, showModal } = this.state;
     const lengthOfImages = images.length;
-    // if (status === 'idle') {
-    //   return (
-    //     <>
-    //       <Searchbar onSubmit={this.handleFormSubmit} />
-    //       <p>Enter image name you are looking for.</p>
-    //     </>
-    //   );
-    // }
-    // if (status === 'pending' && images.length < 12) {
-    //   return <Hearts color="#00BFFF" height={80} width={80} />;
-    // }
-    // if (status === 'rejected') {
-    //   return <p>'error'</p>;
-    // }
+   
     return (
-      <div>
+      <AppWpapper>
         
-        {/* {showModal && <Modal />} */}
         <Searchbar onSubmit={this.handleFormSubmit} />
+        <Toaster/>
         {lengthOfImages === 0 && !loading && (
-          <p>Enter image name you are looking for.</p>
+          <Text>Enter image name you are looking for.</Text>
         )}
         {lengthOfImages > 0 && (
           <ImageGallery
@@ -124,17 +96,13 @@ export class App extends Component {
             showModal={showModal}
           />
         )}
-        {/* {images.length > 0 ? (
-          <ImageGallery images={images} />
-        ) : (
-          
-        )} */}
+        
         {images.length > 0 && !loading && (
           <Button onClick={this.loadMoreBtn} loading={loading} />
         )}
 
         {loading && <Loader />}
-      </div>
+      </AppWpapper>
     );
   }
 }

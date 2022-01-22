@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import { FaSearch } from 'react-icons/fa';
 import {
   SearchbarHeader,
   SearchForm,
@@ -18,7 +20,9 @@ export class Searchbar extends Component {
     const { searchedImage } = this.state;
     e.preventDefault();
     if (searchedImage.trim() === '') {
-      alert('Make sure you are looking for something ;)');
+      toast('Make sure you are looking for something!', {
+        icon: '😉',
+      });
       return;
     }
     this.props.onSubmit(searchedImage.trim());
@@ -32,7 +36,7 @@ export class Searchbar extends Component {
       <SearchbarHeader>
         <SearchForm onSubmit={this.handleSubmit}>
           <SearchFormButton type="submit">
-            <span>Search</span>
+            <FaSearch/>
           </SearchFormButton>
 
           <SearchFormInput
@@ -44,6 +48,7 @@ export class Searchbar extends Component {
             onChange={this.handleInputChange}
           />
         </SearchForm>
+        <Toaster/>
       </SearchbarHeader>
     );
   }

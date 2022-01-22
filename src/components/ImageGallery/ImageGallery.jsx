@@ -1,18 +1,28 @@
 import { ImageGalleryItem } from '../ImageGalleryItem';
 import { ImageGalleryList } from '.';
 import PropTypes from 'prop-types'; 
+import { Modal } from '../Modal';
 
 export const ImageGallery = ({ images, onClick, showModal }) => (
   <ImageGalleryList>
     {images.map(({ id, webformatURL, largeImageURL, tags }, index) => (
+      <>
       <ImageGalleryItem
         key={index}
-        image={largeImageURL}
+        image={webformatURL}
         tags={tags}
         onClick={onClick}
         showModal={showModal}
+        imageForModal={largeImageURL}
       />
+      {showModal && (
+        <Modal onClose={onClick}>
+          <img src={largeImageURL} alt={tags} />
+        </Modal>
+      )}
+      </>
     ))}
+    
   </ImageGalleryList>
 );
 
